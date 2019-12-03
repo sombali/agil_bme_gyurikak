@@ -20,6 +20,10 @@ public class SystemManager {
         this.previous10MachineData = previous10MachineData;
     }
 
+    public List<Machine> getMachines() {
+        return machines;
+    }
+
     public void queryMachines() {
 
     }
@@ -50,7 +54,7 @@ public class SystemManager {
     }
 
     /**
-     * Ha szerepel valamelyik gép utolsó 10 eredménye között többször is 0,
+     * Ha szerepel valamelyik gép utolsó 10 eredménye között többször is 0 power,
      * akkor hibát jelez, egyébként nem.
      * @return státusz
      */
