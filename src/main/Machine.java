@@ -7,9 +7,15 @@ public class Machine {
     private double temperatureTreshold;
     private double powerTreshold;
     private List<Sensor> sensors;
+    private List<MachineData> previous10MachineData;
+
+    public Machine(double temperatureTreshold, double powerTreshold) {
+        this.temperatureTreshold = temperatureTreshold;
+        this.powerTreshold = powerTreshold;
+    }
 
     public Machine(double temperatureTreshold, double powerTreshold,
-        List<Sensor> sensors) {
+                   List<Sensor> sensors) {
         this.temperatureTreshold = temperatureTreshold;
         this.powerTreshold = powerTreshold;
         this.sensors = sensors;
@@ -41,5 +47,13 @@ public class Machine {
 
     public MachineData getMachineData() {
         return this.sensors.get(0).getMachineData();
+    }
+
+    public List<MachineData> getPrevious10MachineData() {
+        return previous10MachineData;
+    }
+
+    public void setPrevious10MachineData(List<MachineData> previous10MachineData) {
+        this.previous10MachineData = previous10MachineData;
     }
 }

@@ -7,6 +7,15 @@ public class MachineData {
     private double power;
     private Date timestamp;
 
+    public MachineData() {
+
+    }
+
+    public MachineData(double temperature, double power) {
+        this.temperature = temperature;
+        this.power = power;
+    }
+
     public double getTemperature() {
         return temperature;
     }
