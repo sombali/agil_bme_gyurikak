@@ -1,3 +1,5 @@
+package main;
+
 public class RandomSensor implements Sensor {
 
     private MachineData machineData;

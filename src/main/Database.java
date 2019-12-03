@@ -1,5 +1,7 @@
+package main;
+
 public class Database implements DatabaseConnector {
-    
+
     @Override
     public void save(MachineData machineData) {
 
