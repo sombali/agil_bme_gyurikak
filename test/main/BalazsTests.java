@@ -36,16 +36,28 @@ public class BalazsTests {
 
         StatusCode result = systemManager.checkIfHasZero();
 
-        assertEquals(result, StatusCode.OK);
+        assertEquals(StatusCode.OK, result);
     }
 
     @Test
     public void testOneBadElementInPreviousTen() {
         systemManager.getMachines().get(0).addMachineData(new MachineData(10,0));
+        systemManager.getMachines().get(0).addMachineData(new MachineData(10,1));
 
         StatusCode result = systemManager.checkIfHasZero();
 
-        assertEquals(result, StatusCode.WARNING);
+        assertEquals(StatusCode.WARNING, result);
     }
+
+    @Test
+    public void testTwoBadElementInPreviousTen() {
+        systemManager.getMachines().get(0).addMachineData(new MachineData(10,0));
+        systemManager.getMachines().get(0).addMachineData(new MachineData(10,0));
+
+        StatusCode result = systemManager.checkIfHasZero();
+
+        assertEquals(StatusCode.ERROR, result);
+    }
+
 
 }

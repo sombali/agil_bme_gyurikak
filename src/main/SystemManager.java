@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SystemManager {
@@ -30,14 +29,23 @@ public class SystemManager {
     }
 
     public StatusCode checkIfHasZero() {
+        int counter = 0;
+
         for (Machine machine : machines) {
             for (MachineData data : machine.getPrevious10MachineData()) {
                 if(data.getPower() == 0) {
-                    return StatusCode.WARNING;
+                    counter++;
                 }
             }
         }
-        return StatusCode.OK;
+
+        if(counter > 1) {
+            return StatusCode.ERROR;
+        } else if (counter == 1) {
+            return StatusCode.WARNING;
+        } else {
+            return StatusCode.OK;
+        }
     }
 
 
