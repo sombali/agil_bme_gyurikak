@@ -37,6 +37,15 @@ public class TendencyTest {
         assertEquals(StatusCode.OK, result);
     }
 
+    @Test
+    public void testLastThreeIncreasing() {
+        addDatas(systemManager.getMachines().get(0), new double[] {1,2,3,3,3,4,3,4,5,6});
+
+        StatusCode result = systemManager.checkPreviousTenTendency();
+
+        assertEquals(StatusCode.OK, result);
+    }
+
     private void addDatas(Machine machine, double[] powerDatas) {
         for(double data: powerDatas) {
             machine.addMachineData(new MachineData(0, data));
