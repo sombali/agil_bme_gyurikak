@@ -72,7 +72,7 @@ public class SystemManager {
             int faulty = 0;
 
             for (MachineData machineData : last10MachineData) {
-                if (machineData.getPower() == 0) {
+                if (machineData.getPower() == 0.0) {
                     faulty += 1;
                 }
             }

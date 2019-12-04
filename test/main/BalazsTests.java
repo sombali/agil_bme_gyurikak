@@ -2,18 +2,15 @@ package main;
 
 import static org.junit.Assert.*;
 
-import jdk.net.SocketFlow;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class BalazsTests {
 
     private SystemManager systemManager;
-    private Random random;
 
     @Before
     public void setUp() {
@@ -22,24 +19,31 @@ public class BalazsTests {
         machines.add(newMachine(10,11));
         machines.add(newMachine(15,20));
 
-        random = new Random();
         systemManager = new SystemManager(machines);
     }
 
     private Machine newMachine(double temperatureTreshold, double powerTreshold) {
         Machine machine = new Machine(temperatureTreshold, powerTreshold);
-        initGoodMachineDatas(machine);
+        double[] datas = new double[] {2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0};
+
+        initMachineDatas(machine, datas);
+
         return machine;
     }
 
-    private void initGoodMachineDatas(Machine machine1) {
+    private void initMachineDatas(Machine machine, double[] datas) {
         List<MachineData> last10MachineData = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            last10MachineData.add(new MachineData(i+1, 2));
+        for (double data : datas) {
+            last10MachineData.add(new MachineData(1, data));
         }
-        last10MachineData.add(new MachineData(10,1));
-        machine1.setPrevious10MachineData(last10MachineData);
+        machine.setPrevious10MachineData(last10MachineData);
     }
+
+    private void addMachine(Machine machine, double[] datas) {
+        initMachineDatas(machine, datas);
+        systemManager.getMachines().add(machine);
+    }
+
 
     @Test
     public void checkLast10MachineDataWithoutZeros() {
@@ -50,7 +54,8 @@ public class BalazsTests {
 
     @Test
     public void checkLast10MachineDataWithOneZero() {
-        addMachineWithZero();
+        double[] datas = new double[] {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0};
+        addMachine(new Machine(10, 10), datas);
 
         StatusCode result = systemManager.checkLast10MachineDataIfZero();
 
@@ -58,40 +63,14 @@ public class BalazsTests {
 
     }
 
-    private void addMachineWithZero() {
-        Machine machine = new Machine(10,10);
-        List<MachineData> last10MachineData = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            last10MachineData.add(new MachineData(i+5, i));
-        }
-        machine.setPrevious10MachineData(last10MachineData);
-
-        systemManager.getMachines().add(machine);
-    }
-
     @Test
     public void checkLast10MachineDataWithMultipleZeros() {
-        addMachineWithMultipleZeros();
+        double[] datas = new double[] {0.0, 1.0, 2.0, 3.0, 0.0, 5.0, 6.0, 7.0, 8.0, 9.0};
+        addMachine(new Machine(10, 10), datas);
 
         StatusCode result = systemManager.checkLast10MachineDataIfZero();
 
         assertEquals(StatusCode.ERROR, result);
-    }
-
-    private void addMachineWithMultipleZeros() {
-        Machine machine = new Machine(10,10);
-        List<MachineData> last10MachineData = new ArrayList<>();
-        for(int i = 0; i < 4; i++) {
-            last10MachineData.add(new MachineData(i+5, i));
-        }
-        last10MachineData.add(new MachineData(10, 0));
-        for(int i = 5; i < 10; i++) {
-            last10MachineData.add(new MachineData(i+5, i));
-        }
-
-        machine.setPrevious10MachineData(last10MachineData);
-
-        systemManager.getMachines().add(machine);
     }
 
     @Test
@@ -103,35 +82,24 @@ public class BalazsTests {
 
     @Test
     public void checkLast10TendencyWARNING() {
-        addMachineWithFourIncreasingData();
+        double[] datas = new double[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 6.0, 7.0, 8.0, 9.0};
+        addMachine(new Machine(10, 10), datas);
 
         StatusCode result = systemManager.checkIncresingPowerTendendcy();
 
         assertEquals(StatusCode.WARNING, result);
     }
 
-    private void addMachineWithFourIncreasingData() {
-        Machine machine = new Machine(10,10);
-        List<MachineData> last10MachineData = new ArrayList<>();
-        for(int i = 0; i < 6; i++) {
-            last10MachineData.add(new MachineData(i+5, 2));
-        }
-        for(int i = 6; i < 10; i++) {
-            last10MachineData.add(new MachineData(i+5, i));
-        }
-        machine.setPrevious10MachineData(last10MachineData);
-
-        systemManager.getMachines().add(machine);
-    }
-
     @Test
     public void checkLast10TendencyERROR() {
-        addMachineWithZero();
+        double[] datas = new double[] {0.0, 1.0, 2.0, 3.0, 0.0, 5.0, 6.0, 7.0, 8.0, 9.0};
+        addMachine(new Machine(10, 10), datas);
 
         StatusCode result = systemManager.checkIncresingPowerTendendcy();
 
         assertEquals(StatusCode.ERROR, result);
     }
+
 
 
 
