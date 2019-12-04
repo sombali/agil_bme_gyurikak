@@ -8,9 +8,13 @@ public class SystemManager {
     private List<Machine> machines;
     private DatabaseConnector databaseConnector;
     private List<MachineData> previous10MachineData;
+    private double systemPowerThreshold;
+    private double systemTemperatureThreshold;
 
     public SystemManager(List<Machine> machines) {
         this.machines = machines;
+        this.systemPowerThreshold = 10;
+        this.systemTemperatureThreshold = 100;
     }
 
     public SystemManager(List<Machine> machines, DatabaseConnector databaseConnector,
@@ -32,21 +36,21 @@ public class SystemManager {
 
     }
 
-    /*
+    /**
      * összes gépnek van külön áramfelvétele, abból számítunk egy egész
      * rendszerre való reprezentációt, és arra is van egy treshold.
      * ha van pl 3 gép, egyiknek áramfelvétele 7, másiknak 8, harmadiknak 5,
      * de az egész rendszeré csak 10, akkor is hiba legyen.
      */
-    public StatusCode checkWholeSystem(double wholeSystemThreshold) {
+    public StatusCode checkWholeSystem() {
         double machineTempSum = 0;
 
         for(Machine machine: machines) {
-            machineTempSum += machine.getMachineData().getTemperature();
+            machineTempSum += machine.getPrevious10MachineData().get(0).getTemperature();
         }
-        if(machineTempSum < wholeSystemThreshold) {
+        if(machineTempSum < this.systemPowerThreshold) {
             return StatusCode.OK;
-        } else if(machineTempSum == wholeSystemThreshold) {
+        } else if(machineTempSum == this.systemPowerThreshold) {
             return StatusCode.WARNING;
         } else {
             return StatusCode.ERROR;
@@ -84,6 +88,26 @@ public class SystemManager {
             return StatusCode.OK;
         }
 
+    }
+
+    /**
+     * gép hozzáadása, úgy hogy meg kell nézni a rendszer gépet, és ha az
+     * összesített tresholdn agyobb mint a rendszer tresholdja, akkor ne lehessen hozzáadni.
+     * Az addMachine megnézi, hogy ha a gépet hozzáadva magas az egész
+     * rendszer tresholdja, akkor nem lehet hozzáadni.
+     */
+    public StatusCode addMachine(Machine machine) {
+        double powerThresholdSum = 0;
+        for(Machine m: this.machines) {
+            powerThresholdSum += m.getPowerTreshold();
+        }
+        double theoreticalTotalPower = powerThresholdSum + machine.getPowerTreshold();
+        if(theoreticalTotalPower >= this.systemPowerThreshold) {
+            return StatusCode.ERROR;
+        } else {
+            this.machines.add(machine);
+            return StatusCode.OK;
+        }
     }
 
 
