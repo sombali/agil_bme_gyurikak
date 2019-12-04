@@ -30,6 +30,13 @@ public class SystemManager {
     }
 
     public StatusCode checkIfHasZero() {
+        for (Machine machine : machines) {
+            for (MachineData data : machine.getPrevious10MachineData()) {
+                if(data.getPower() == 0) {
+                    return StatusCode.WARNING;
+                }
+            }
+        }
         return StatusCode.OK;
     }
 
