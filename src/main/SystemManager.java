@@ -59,22 +59,31 @@ public class SystemManager {
             List<MachineData> previous10MachineData = machine.getPrevious10MachineData();
             Collections.reverse(previous10MachineData);
 
-            int numberOfHigher = 0;
-            boolean hasLower = false;
+            int numberOfHigher = getNumberOfHigher(previous10MachineData);
 
-            for(int i = 0; i < 4; i++) {
-                if (!hasLower && previous10MachineData.get(i).getPower() > previous10MachineData.get(i+1).getPower()) {
-                    numberOfHigher++;
-                } else {
-                    hasLower = true;
-                }
-            }
-
-            if(numberOfHigher == 3) {
+            if(numberOfHigher >= 3) {
                 return StatusCode.WARNING;
             }
         }
         return StatusCode.OK;
+    }
+
+    private int getNumberOfHigher(List<MachineData> previous10MachineData) {
+        int numberOfHigher = 0;
+        boolean hasLower = false;
+
+        for(int i = 0; i < previous10MachineData.size(); i++) {
+            if (tendencyIsIncreasing(previous10MachineData, hasLower, i)) {
+                numberOfHigher++;
+            } else {
+                hasLower = true;
+            }
+        }
+        return numberOfHigher;
+    }
+
+    private boolean tendencyIsIncreasing(List<MachineData> previous10MachineData, boolean hasLower, int i) {
+        return !hasLower && previous10MachineData.get(i).getPower() > previous10MachineData.get(i+1).getPower();
     }
 
 
