@@ -87,4 +87,41 @@ public class SystemManager {
     }
 
 
+    /**
+     * Ha az a gép utolsó power-je növekszik már 4 vagy 5 lekérdezés óta akkor warningot dob,
+     * ha több mint 5 lekérdezés óta növekszik akkor errort, ha pedig 4 alatt akkor OK-ot.
+     * @return státuszkód
+     */
+    public StatusCode checkIncresingPowerTendendcy() {
+
+        StatusCode statusCode;
+
+        for (Machine machine : machines) {
+            List<MachineData> last10MachineData = machine.getPrevious10MachineData();
+
+            int size = last10MachineData.size()-1;
+
+            double tmpPower = last10MachineData.get(size).getPower();
+
+            int numberOfIncreasingPower = 0;
+
+            for (int i = last10MachineData.size() - 2; i >= 0; i--) {
+                if(tmpPower > last10MachineData.get(i).getPower()) {
+                    numberOfIncreasingPower++;
+                }
+                tmpPower = last10MachineData.get(i).getPower();
+            }
+
+            if(numberOfIncreasingPower > 5) {
+                return StatusCode.ERROR;
+            } else if(numberOfIncreasingPower > 3) {
+                return StatusCode.WARNING;
+            }
+
+        }
+
+        return StatusCode.OK;
+    }
+
+
 }
