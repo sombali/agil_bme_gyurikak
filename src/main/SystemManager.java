@@ -48,6 +48,9 @@ public class SystemManager {
         }
     }
 
+    public StatusCode checkPreviousTenTendency() {
+        return StatusCode.OK;
+    }
 
 
 }

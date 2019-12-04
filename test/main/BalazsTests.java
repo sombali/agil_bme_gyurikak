@@ -3,8 +3,6 @@ package main;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.crypto.Mac;
-
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
