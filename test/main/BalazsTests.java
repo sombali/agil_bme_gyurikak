@@ -14,6 +14,7 @@ public class BalazsTests {
         Machine machine = new Machine(10,10);
         List<Machine> machines = new ArrayList<>();
         machines.add(machine);
+        machine.addMachineData(new MachineData(10,10));
 
         SystemManager systemManager = new SystemManager(machines);
 

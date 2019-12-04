@@ -56,4 +56,8 @@ public class Machine {
     public void setPrevious10MachineData(List<MachineData> previous10MachineData) {
         this.previous10MachineData = previous10MachineData;
     }
+
+    public void addMachineData(MachineData machineData) {
+        previous10MachineData.add(machineData);
+    }
 }
