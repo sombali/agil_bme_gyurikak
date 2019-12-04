@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Machine {
@@ -12,6 +13,7 @@ public class Machine {
     public Machine(double temperatureTreshold, double powerTreshold) {
         this.temperatureTreshold = temperatureTreshold;
         this.powerTreshold = powerTreshold;
+        this.previous10MachineData = new ArrayList<>();
     }
 
     public Machine(double temperatureTreshold, double powerTreshold,

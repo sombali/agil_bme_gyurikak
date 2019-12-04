@@ -1,5 +1,6 @@
 package main;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,14 +10,27 @@ import java.util.List;
 
 public class BalazsTests {
 
-    @Test
-    public void testEmptyPrevious10() {
+    SystemManager systemManager;
+
+    @Before
+    public void setUp() {
         Machine machine = new Machine(10,10);
         List<Machine> machines = new ArrayList<>();
         machines.add(machine);
-        machine.addMachineData(new MachineData(10,10));
 
-        SystemManager systemManager = new SystemManager(machines);
+        systemManager = new SystemManager(machines);
+    }
+
+    @Test
+    public void testEmptyPrevious10() {
+        StatusCode result = systemManager.checkIfHasZero();
+
+        assertEquals(result, StatusCode.OK);
+    }
+
+    @Test
+    public void testOneGoodElementInPreviousTen() {
+        systemManager.getMachines().get(0).addMachineData(new MachineData(10,10));
 
         StatusCode result = systemManager.checkIfHasZero();
 
