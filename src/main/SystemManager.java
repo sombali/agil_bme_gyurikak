@@ -29,6 +29,10 @@ public class SystemManager {
 
     }
 
+    public StatusCode checkIfHasZero() {
+        return StatusCode.OK;
+    }
+
 
 
 }
