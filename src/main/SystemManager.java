@@ -32,13 +32,7 @@ public class SystemManager {
     public StatusCode checkIfHasZero() {
         int counter = 0;
 
-        for (Machine machine : machines) {
-            for (MachineData data : machine.getPrevious10MachineData()) {
-                if(data.getPower() == 0) {
-                    counter++;
-                }
-            }
-        }
+        counter = numberOfZeros(counter);
 
         if(counter > 1) {
             return StatusCode.ERROR;
@@ -47,6 +41,17 @@ public class SystemManager {
         } else {
             return StatusCode.OK;
         }
+    }
+
+    private int numberOfZeros(int counter) {
+        for (Machine machine : machines) {
+            for (MachineData data : machine.getPrevious10MachineData()) {
+                if(data.getPower() == 0) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 
     public StatusCode checkPreviousTenTendency() {
