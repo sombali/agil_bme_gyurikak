@@ -25,7 +25,7 @@ public class TendencyTest {
     public void testEmptyPrevious10() {
         StatusCode result = systemManager.checkPreviousTenTendency();
 
-        assertEquals(StatusCode.OK, result);
+        assertEquals(StatusCode.ERROR, result);
     }
 
     @Test
@@ -39,11 +39,20 @@ public class TendencyTest {
 
     @Test
     public void testLastThreeIncreasing() {
-        addDatas(systemManager.getMachines().get(0), new double[] {1,2,3,3,3,4,3,4,5,6});
+        addDatas(systemManager.getMachines().get(0), new double[] {1,2,3,3,3,4,5,4,5,6});
 
         StatusCode result = systemManager.checkPreviousTenTendency();
 
         assertEquals(StatusCode.OK, result);
+    }
+
+    @Test
+    public void testLastFourIncreasing() {
+        addDatas(systemManager.getMachines().get(0), new double[] {1,2,3,3,3,5,4,5,6,7});
+
+        StatusCode result = systemManager.checkPreviousTenTendency();
+
+        assertEquals(StatusCode.WARNING, result);
     }
 
     private void addDatas(Machine machine, double[] powerDatas) {

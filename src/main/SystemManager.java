@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SystemManager {
@@ -49,6 +50,30 @@ public class SystemManager {
     }
 
     public StatusCode checkPreviousTenTendency() {
+        for (Machine machine : machines) {
+
+            if(machine.getPrevious10MachineData().isEmpty()) {
+                return StatusCode.ERROR;
+            }
+
+            List<MachineData> previous10MachineData = machine.getPrevious10MachineData();
+            Collections.reverse(previous10MachineData);
+
+            int numberOfHigher = 0;
+            boolean hasLower = false;
+
+            for(int i = 0; i < 4; i++) {
+                if (!hasLower && previous10MachineData.get(i).getPower() > previous10MachineData.get(i+1).getPower()) {
+                    numberOfHigher++;
+                } else {
+                    hasLower = true;
+                }
+            }
+
+            if(numberOfHigher == 3) {
+                return StatusCode.WARNING;
+            }
+        }
         return StatusCode.OK;
     }
 
