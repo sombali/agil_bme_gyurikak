@@ -56,16 +56,22 @@ public class SystemManager {
                 return StatusCode.ERROR;
             }
 
-            List<MachineData> previous10MachineData = machine.getPrevious10MachineData();
-            Collections.reverse(previous10MachineData);
-
+            List<MachineData> previous10MachineData = getReverseMachineData(machine);
             int numberOfHigher = getNumberOfHigher(previous10MachineData);
 
-            if(numberOfHigher >= 3) {
+            if(numberOfHigher >= 5) {
+                return StatusCode.ERROR;
+            } else if(numberOfHigher >= 3) {
                 return StatusCode.WARNING;
             }
         }
         return StatusCode.OK;
+    }
+
+    private List<MachineData> getReverseMachineData(Machine machine) {
+        List<MachineData> previous10MachineData = machine.getPrevious10MachineData();
+        Collections.reverse(previous10MachineData);
+        return previous10MachineData;
     }
 
     private int getNumberOfHigher(List<MachineData> previous10MachineData) {

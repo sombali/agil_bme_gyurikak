@@ -64,6 +64,15 @@ public class TendencyTest {
         assertEquals(StatusCode.WARNING, result);
     }
 
+    @Test
+    public void testMoreThanFiveIncreasing() {
+        addDatas(systemManager.getMachines().get(0), new double[] {1,2,3,1,2,3,4,5,6,7});
+
+        StatusCode result = systemManager.checkPreviousTenTendency();
+
+        assertEquals(StatusCode.ERROR, result);
+    }
+
     private void addDatas(Machine machine, double[] powerDatas) {
         for(double data: powerDatas) {
             machine.addMachineData(new MachineData(0, data));
