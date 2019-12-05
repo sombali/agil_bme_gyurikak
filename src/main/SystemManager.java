@@ -36,6 +36,59 @@ public class SystemManager {
 
     }
 
+
+    /**
+     * Egy gép utolsó 10 értékéből ha az étlag magas, akkor hibás a gép
+     * @param machine - a vizsgált gép
+     * @return statusCode - státusz
+     */
+    public StatusCode checkLast10MachineDataAvg(Machine machine) {
+        double sum = 0;
+        double avg = 0;
+
+        List<MachineData> dataPoints = machine.getPrevious10MachineData();
+
+        for (MachineData point : dataPoints) {
+            System.out.println(point.getTemperature());
+            sum += point.getTemperature();
+        }
+
+        System.out.println(machine.getPrevious10MachineData().get(0).getTemperature());
+
+        avg = sum / (double)dataPoints.size();
+        if (avg > machine.getTemperatureTreshold()) {
+            return StatusCode.ERROR;
+        } else {
+            return StatusCode.OK;
+        }
+    }
+
+
+    /**
+     * Ha egy gép utolsó 10 értékéből 3 magas akkor figyelmeztető jelzés, ha legalább 5 akkor hibás
+     * @param machine - a vizsgált gép
+     * @return statusCode - státusz
+     */
+    public StatusCode checkLast10MachineDataSeq(Machine machine) {
+        int faultyMachines = 0;
+
+        List<MachineData> dataPoints = machine.getPrevious10MachineData();
+
+        for (MachineData point : dataPoints) {
+            if (point.getTemperature() > machine.getTemperatureTreshold()) {
+                faultyMachines++;
+            }
+         }
+        if (faultyMachines < 3) {
+            return StatusCode.OK;
+        } else if (faultyMachines < 5) {
+            return StatusCode.WARNING;
+        } else {
+            return StatusCode.ERROR;
+        }
+    }
+
+
     /**
      * összes gépnek van külön áramfelvétele, abból számítunk egy egész
      * rendszerre való reprezentációt, és arra is van egy treshold.
