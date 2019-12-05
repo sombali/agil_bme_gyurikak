@@ -49,11 +49,8 @@ public class SystemManager {
         List<MachineData> dataPoints = machine.getPrevious10MachineData();
 
         for (MachineData point : dataPoints) {
-            System.out.println(point.getTemperature());
             sum += point.getTemperature();
         }
-
-        System.out.println(machine.getPrevious10MachineData().get(0).getTemperature());
 
         avg = sum / (double)dataPoints.size();
         if (avg > machine.getTemperatureTreshold()) {
