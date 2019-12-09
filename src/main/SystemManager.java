@@ -29,6 +29,24 @@ public class SystemManager {
 
     }
 
+    /**
+     * Összes machine hőmérséklete, és ha 30%-nak az értéke a sajat hőmérsékleti
+     * tresholdja felett van akkor gebasz van
+     * @return státusz
+     */
+    public StatusCode checkIfTooHighTemp() {
+        StatusCode statusCode = StatusCode.OK;
 
+        int numberOfHighs = 0;
 
+        for(Machine i:machines) {
+            if(i.getMachineData().getTemperature() > i.getTemperatureTreshold())
+                numberOfHighs++;
+        }
+
+        if((float)numberOfHighs/getMachines().size() > 0.3)
+            statusCode = StatusCode.ERROR;
+
+        return statusCode;
+    }
 }
