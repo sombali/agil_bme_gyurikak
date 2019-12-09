@@ -47,6 +47,15 @@ public class MateTests {
         assertEquals(initialMachineCnt + 1, this.sm.getMachines().size());
     }
 
+    @Test
+    public void addMachineOnTreshold() {
+        int initialMachineCnt = this.sm.getMachines().size();
+        Machine m1 = new Machine(10);
+        StatusCode result = this.sm.addMachine(m1);
+        assertEquals(result, StatusCode.OK);
+        assertEquals(initialMachineCnt + 1, this.sm.getMachines().size());
+    }
+
 }
 
 
