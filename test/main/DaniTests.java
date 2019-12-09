@@ -105,4 +105,17 @@ public class DaniTests {
 
         assertEquals(hasFaulty, true);
     }
+
+    @Test
+    public void checkFaultyCounter() {
+        double[] datas = new double[] {11.0, 12.0, 13.0, 10.0, 11.0, 12.0, 16.0, 17.0, 16.0, 12.0};
+        addMachine(newMachine(15, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+
+        int faulty = systemManager.countFaulty(machine);
+
+        assertEquals(faulty, 3);
+
+    }
 }

@@ -85,5 +85,17 @@ public class SystemManager {
     }
 
 
+    public int countFaulty(Machine machine) {
+        int faulty = 0;
+        if(checkIfHas10Data(machine)) {
+            List<MachineData> dataPoints = machine.getPrevious10MachineData();
 
+            for (MachineData data : dataPoints) {
+                if(data.getTemperature() > machine.getTemperatureTreshold()) {
+                    faulty++;
+                }
+            } return faulty;
+
+        } return -1;
+    }
 }
