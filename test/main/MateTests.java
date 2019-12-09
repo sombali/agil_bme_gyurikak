@@ -28,6 +28,13 @@ public class MateTests {
         assertEquals(sm.checkPowerLimit(), StatusCode.ERROR);
     }
 
+    @Test
+    public void checkSystemThresholdOnTreshold() {
+        Machine m = new Machine(10);
+        sm.addMachine(m);
+        assertEquals(sm.checkPowerLimit(), StatusCode.WARNING);
+    }
+
 }
 
 
