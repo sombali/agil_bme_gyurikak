@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MateTests {
-  private  SystemManager sm;
+    private  SystemManager sm;
 
     @Before
     public void setup() {
@@ -17,6 +17,13 @@ public class MateTests {
     @Test
     public void checkSystemThresholdLow() {
         Machine m = new Machine(1);
+        sm.addMachine(m);
+        assertEquals(sm.checkPowerLimit(), StatusCode.OK);
+    }
+
+    @Test
+    public void checkSystemThresholdHigh() {
+        Machine m = new Machine(100);
         sm.addMachine(m);
         assertEquals(sm.checkPowerLimit(), StatusCode.OK);
     }
