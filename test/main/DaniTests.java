@@ -48,8 +48,19 @@ public class DaniTests {
     @Test
     public void checkIfHas10Data() {
         Machine machine = systemManager.getMachines().get(0);
-        StatusCode status = systemManager.checkIfHas10Data(machine);
+        boolean status = systemManager.checkIfHas10Data(machine);
 
-        assertEquals(StatusCode.OK, status);
+        assertEquals(true, status);
+    }
+
+    @Test
+    public void countAvg() {
+        double[] datas = new double[] {10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0};
+        addMachine(newMachine(10, 10), datas);
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+
+        double avg = systemManager.countAvg(machine);
+        double epsilon = 0.00001;
+        assertEquals(10, avg, epsilon);
     }
 }

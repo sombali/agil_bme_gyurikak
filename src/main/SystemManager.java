@@ -32,11 +32,29 @@ public class SystemManager {
     }
 
 
-    public StatusCode checkIfHas10Data(Machine machine) {
+    public boolean checkIfHas10Data(Machine machine) {
         if((!machine.equals(null)) && (machine.getPrevious10MachineData().size() == 10)) {
-            return StatusCode.OK;
+            return true;
         } else {
-            return StatusCode.NODATA;
+            return false;
+        }
+    }
+
+    public double countAvg(Machine machine) {
+        double avg = 0;
+        double sum = 0;
+        if(checkIfHas10Data(machine)) {
+            List<MachineData> dataPoints = machine.getPrevious10MachineData();
+
+            for (MachineData data : dataPoints) {
+                sum += data.getTemperature();
+            }
+
+            avg = sum / dataPoints.size();
+
+            return avg;
+        } else {
+            return -1;
         }
     }
 
