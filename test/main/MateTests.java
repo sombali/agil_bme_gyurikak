@@ -3,19 +3,24 @@ package main;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
 
 public class MateTests {
+  private  SystemManager sm;
+
+    @Before
+    public void setup() {
+        sm = new SystemManager(new ArrayList<Machine>());
+    }
 
     @Test
-    public void checkSystemThreshold() {
+    public void checkSystemThresholdLow() {
         Machine m = new Machine(1);
-        List<Machine> machines = new ArrayList<>();
-        machines.add(m);
-        SystemManager sm = new SystemManager(machines);
+        sm.addMachine(m);
         assertEquals(sm.checkPowerLimit(), StatusCode.OK);
     }
+
 }
 
 

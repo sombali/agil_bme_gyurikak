@@ -41,4 +41,8 @@ public class SystemManager {
             return null;
         }
     }
+
+    public void addMachine(Machine m) {
+        this.machines.add(m);
+    }
 }
