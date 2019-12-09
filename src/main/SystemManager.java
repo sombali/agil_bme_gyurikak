@@ -58,6 +58,20 @@ public class SystemManager {
         }
     }
 
+    public StatusCode checkLast10MachineDataAvg(Machine machine) {
+        if(checkIfHas10Data(machine)) {
+            double avg = countAvg(machine);
+
+            if (avg > machine.getPowerTreshold()) {
+                return StatusCode.ERROR;
+            } else {
+                return StatusCode.OK;
+            }
+        } else {
+            return StatusCode.NODATA;
+        }
+    }
+
 
 
 }

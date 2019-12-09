@@ -63,4 +63,14 @@ public class DaniTests {
         double epsilon = 0.00001;
         assertEquals(10, avg, epsilon);
     }
+
+    @Test
+    public void checkLast10MachineDataAvgEquals() {
+        double[] datas = new double[] {10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0};
+        addMachine(newMachine(10, 10), datas);
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+        StatusCode status = systemManager.checkLast10MachineDataAvg(machine);
+
+        assertEquals(StatusCode.OK, status);
+    }
 }
