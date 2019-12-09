@@ -35,13 +35,8 @@ public class SystemManager {
         for(Machine m: this.machines) {
             powerSum += m.getPowerTreshold();
         }
-        if(powerSum < this.systemPowerThreshold) {
-            return StatusCode.OK;
-        } else if(powerSum > this.systemPowerThreshold){
-            return StatusCode.ERROR;
-        } else {
-            return StatusCode.WARNING;
-        }
+        return powerSum == this.systemPowerThreshold ? StatusCode.WARNING :
+            powerSum > this.systemPowerThreshold ? StatusCode.ERROR : StatusCode.OK;
     }
 
     public void addMachine(Machine m) {
