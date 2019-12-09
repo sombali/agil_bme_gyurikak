@@ -38,7 +38,7 @@ public class SystemManager {
         if(powerSum < this.systemPowerThreshold) {
             return StatusCode.OK;
         } else {
-            return null;
+            return StatusCode.ERROR;
         }
     }
 

@@ -25,7 +25,7 @@ public class MateTests {
     public void checkSystemThresholdHigh() {
         Machine m = new Machine(100);
         sm.addMachine(m);
-        assertEquals(sm.checkPowerLimit(), StatusCode.OK);
+        assertEquals(sm.checkPowerLimit(), StatusCode.ERROR);
     }
 
 }
