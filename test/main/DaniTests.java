@@ -118,4 +118,69 @@ public class DaniTests {
         assertEquals(faulty, 3);
 
     }
+
+    @Test
+    public void checkLast10MachineDataWith2Faulty() {
+        double[] datas = new double[] {11.0, 11.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        addMachine(newMachine(10, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+        StatusCode status = systemManager.checkLast10MachineDataSeq(machine);
+
+        assertEquals(StatusCode.OK, status);
+
+    }
+
+    @Test
+    public void checkLast10MachineData3Faulty() {
+        double[] datas = new double[] {11.0, 11.0, 10.1, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        addMachine(newMachine(10, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+        StatusCode status = systemManager.checkLast10MachineDataSeq(machine);
+
+        assertEquals(StatusCode.WARNING, status);
+
+
+    }
+
+    @Test
+    public void checkLast10MachineData4Faulty() {
+        double[] datas = new double[] {11.0, 11.0, 11.0, 11.1, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        addMachine(newMachine(10, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+        StatusCode status = systemManager.checkLast10MachineDataSeq(machine);
+
+        assertEquals(StatusCode.WARNING, status);
+
+
+    }
+
+    @Test
+    public void checkLast10MachineData5Faulty() {
+        double[] datas = new double[] {11.0, 11.0, 11.0, 11.0, 11.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        addMachine(newMachine(10, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+        StatusCode status = systemManager.checkLast10MachineDataSeq(machine);
+
+        assertEquals(StatusCode.ERROR, status);
+
+
+    }
+
+    @Test
+    public void checkLast10MachineData7Faulty() {
+        double[] datas = new double[] {11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 1.0, 1.0, 1.0};
+        addMachine(newMachine(10, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+        StatusCode status = systemManager.checkLast10MachineDataSeq(machine);
+
+        assertEquals(StatusCode.ERROR, status);
+
+
+
+    }
 }

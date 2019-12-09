@@ -98,4 +98,19 @@ public class SystemManager {
 
         } return -1;
     }
+
+    public StatusCode checkLast10MachineDataSeq(Machine machine) {
+        int faulty = -1;
+        if(checkIfHas10Data(machine)) {
+            faulty = countFaulty(machine);
+        }
+
+        if(faulty >= 5) {
+            return StatusCode.ERROR;
+        } else if (faulty >= 3) {
+            return StatusCode.WARNING;
+        } else {
+            return StatusCode.OK;
+        }
+    }
 }
