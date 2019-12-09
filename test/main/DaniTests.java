@@ -92,4 +92,17 @@ public class DaniTests {
 
         assertEquals(StatusCode.ERROR, status);
     }
+
+
+    @Test
+    public void checkIfHasFaulty() {
+        double[] datas = new double[] {11.0, 12.0, 13.0, 10.0, 11.0, 12.0, 13.0, 17.0, 11.0, 12.0};
+        addMachine(newMachine(15, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+
+        boolean hasFaulty = systemManager.hasFaulty(machine);
+
+        assertEquals(hasFaulty, true);
+    }
 }
