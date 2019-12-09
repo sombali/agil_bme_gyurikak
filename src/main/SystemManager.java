@@ -30,5 +30,15 @@ public class SystemManager {
     }
 
 
-
+    public StatusCode checkPowerLimit() {
+        double powerSum = 0;
+        for(Machine m: this.machines) {
+            powerSum += m.getPowerTreshold();
+        }
+        if(powerSum < this.systemPowerThreshold) {
+            return StatusCode.OK;
+        } else {
+            return null;
+        }
+    }
 }

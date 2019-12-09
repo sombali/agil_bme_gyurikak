@@ -9,6 +9,11 @@ public class Machine {
     private List<Sensor> sensors;
     private List<MachineData> previous10MachineData;
 
+    public Machine(double powerTreshold) {
+        this.temperatureTreshold = 0;
+        this.powerTreshold = powerTreshold;
+    }
+
     public Machine(double temperatureTreshold, double powerTreshold) {
         this.temperatureTreshold = temperatureTreshold;
         this.powerTreshold = powerTreshold;
