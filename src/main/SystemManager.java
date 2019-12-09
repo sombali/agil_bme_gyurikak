@@ -41,7 +41,7 @@ public class SystemManager {
 
     public StatusCode addMachine(Machine m) {
         this.machines.add(m);
-        if(this.checkPowerLimit() == StatusCode.OK) {
+        if(this.checkPowerLimit() == StatusCode.OK || this.checkPowerLimit() == StatusCode.WARNING) {
             return StatusCode.OK;
         } else {
             this.machines.remove(m);
