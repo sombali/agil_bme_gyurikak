@@ -1,5 +1,7 @@
 package main;
 
+import jdk.net.SocketFlow;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,15 @@ public class SystemManager {
 
     public void filterMachineData() {
 
+    }
+
+
+    public StatusCode checkIfHas10Data(Machine machine) {
+        if((!machine.equals(null)) && (machine.getPrevious10MachineData().size() == 10)) {
+            return StatusCode.OK;
+        } else {
+            return StatusCode.NODATA;
+        }
     }
 
 
