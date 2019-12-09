@@ -39,7 +39,13 @@ public class SystemManager {
             powerSum > this.systemPowerThreshold ? StatusCode.ERROR : StatusCode.OK;
     }
 
-    public void addMachine(Machine m) {
+    public StatusCode addMachine(Machine m) {
         this.machines.add(m);
+        if(this.checkPowerLimit() == StatusCode.OK) {
+            return StatusCode.OK;
+        } else {
+            this.machines.remove(m);
+            return StatusCode.ERROR;
+        }
     }
 }

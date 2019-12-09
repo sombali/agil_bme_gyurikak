@@ -7,43 +7,44 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MateTests {
-    private  SystemManager sm1;
-    private  SystemManager sm2;
+    private  SystemManager sm;
 
     @Before
     public void setup() {
-        sm1 = new SystemManager(new ArrayList<Machine>());
-        sm2 = new SystemManager(new ArrayList<Machine>());
+        sm = new SystemManager(new ArrayList<Machine>());
     }
 
     @Test
     public void checkSystemThresholdLow() {
-        Machine m = new Machine(1);
-        sm1.addMachine(m);
-        assertEquals(sm1.checkPowerLimit(), StatusCode.OK);
+        ArrayList<Machine> machines =  new ArrayList<Machine>();
+        machines.add(new Machine(1));
+        SystemManager local_sm = new SystemManager(machines);
+        assertEquals(local_sm.checkPowerLimit(), StatusCode.OK);
     }
 
     @Test
     public void checkSystemThresholdHigh() {
-        Machine m = new Machine(100);
-        sm1.addMachine(m);
-        assertEquals(sm1.checkPowerLimit(), StatusCode.ERROR);
+        ArrayList<Machine> machines =  new ArrayList<Machine>();
+        machines.add(new Machine(100));
+        SystemManager local_sm = new SystemManager(machines);
+        assertEquals(local_sm.checkPowerLimit(), StatusCode.ERROR);
     }
 
     @Test
     public void checkSystemThresholdOnTreshold() {
-        Machine m = new Machine(10);
-        sm1.addMachine(m);
-        assertEquals(sm1.checkPowerLimit(), StatusCode.WARNING);
+        ArrayList<Machine> machines =  new ArrayList<Machine>();
+        machines.add(new Machine(10));
+        SystemManager local_sm = new SystemManager(machines);
+        assertEquals(local_sm.checkPowerLimit(), StatusCode.WARNING);
     }
 
     @Test
     public void addMachine() {
-        int initialMachineCnt = sm2.getMachines().size();
+        int initialMachineCnt = this.sm.getMachines().size();
         Machine m1 = new Machine(1);
-        StatusCode result = sm2.addMachine(m1);
+        StatusCode result = this.sm.addMachine(m1);
         assertEquals(result, StatusCode.OK);
-        assertEquals(initialMachineCnt + 1, sm2.getMachines().size());
+        assertEquals(initialMachineCnt + 1, this.sm.getMachines().size());
     }
 
 }
