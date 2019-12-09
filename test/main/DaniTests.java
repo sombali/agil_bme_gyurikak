@@ -65,6 +65,14 @@ public class DaniTests {
     }
 
     @Test
+    public void checkLast10MachineDataAvgLower() {
+        Machine machine = systemManager.getMachines().get(0);
+        StatusCode status = systemManager.checkLast10MachineDataAvg(machine);
+
+        assertEquals(StatusCode.OK, status);
+    }
+
+    @Test
     public void checkLast10MachineDataAvgEquals() {
         double[] datas = new double[] {10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0};
         addMachine(newMachine(10, 10), datas);
@@ -72,5 +80,16 @@ public class DaniTests {
         StatusCode status = systemManager.checkLast10MachineDataAvg(machine);
 
         assertEquals(StatusCode.OK, status);
+    }
+
+    @Test
+    public void checkLast10MachineDataAvgHigher() {
+        double[] datas = new double[] {11.0, 12.0, 13.0, 10.0, 11.0, 12.0, 13.0, 17.0, 11.0, 12.0};
+        addMachine(newMachine(10, 10), datas);
+
+        Machine machine = systemManager.getMachines().get(systemManager.getMachines().size() - 1);
+        StatusCode status = systemManager.checkLast10MachineDataAvg(machine);
+
+        assertEquals(StatusCode.ERROR, status);
     }
 }
